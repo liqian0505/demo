@@ -15,7 +15,6 @@ import static org.assertj.core.api.Assertions.assertThat;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.*;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
-import com.alibaba.fastjson.JSONArray;
 import com.alibaba.fastjson.JSONObject;
 import com.example.demo.model.Joke;
 
@@ -50,12 +49,12 @@ public class JokeControllerTests {
                             .andExpect(status().isOk())
                             .andReturn();
         String resStr = mvcResult.getResponse().getContentAsString();
-        JSONArray array = JSONArray.parseArray(resStr);
-        assertThat(array.size()).isEqualTo(1);
-        assertThat(((JSONObject) array.get(0)).getString("title")).isEqualTo("title");
+        JSONObject resObject =  JSONObject.parseObject(resStr);
+        assertThat(resObject).isNotNull();
+        assertThat(resObject.getString("title")).isEqualTo("title");
 
         // 修改
-        int id = ((JSONObject) array.get(0)).getInteger("id");
+        int id = resObject.getInteger("id");
         joke.setId(id);
         joke.setTitle("TITLE");
         mvcResult = mockMvc.perform(put("/api/jokes/"+id)

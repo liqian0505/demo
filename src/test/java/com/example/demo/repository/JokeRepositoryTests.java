@@ -3,12 +3,7 @@ package com.example.demo.repository;
 
 
 
-import static org.assertj.core.api.Assertions.assertThat;
-
-import java.util.List;
-
 import com.example.demo.model.Joke;
-
 import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
@@ -16,6 +11,10 @@ import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.test.context.junit4.SpringRunner;
+
+import java.util.List;
+
+import static org.assertj.core.api.Assertions.assertThat;
 
 @RunWith(SpringRunner.class)
 @SpringBootTest
@@ -43,7 +42,7 @@ public class JokeRepositoryTests {
         List<Joke> jokeList = jokeRepository.findAll();
         assertThat(jokeList.size()).isEqualTo(2);
         Joke joke = jokeList.get(1);
-        assertThat(joke).extracting("content").contains("content");
+        assertThat(jokeList).extracting(Joke::getContent).contains("content1","content2");
     }
 
     @After
